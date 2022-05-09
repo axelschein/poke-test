@@ -23,14 +23,16 @@ function App() {
 
   useEffect(() => {
     setLoading(true);
-    try {
-      fetchPokemon();
-      console.log('effect');
-    } catch (err) {
-      console.log('error', err);
-    } finally {
-      setLoading(false);
-    }
+    setTimeout(() => {
+      try {
+        fetchPokemon();
+        console.log('effect');
+      } catch (err) {
+        console.log('error', err);
+      } finally {
+        setLoading(false);
+      }
+    }, 500);
   }, [pokemonName]);
 
   return (
@@ -42,8 +44,8 @@ function App() {
         </label>
         <input type="submit" className="btn btn-success" />
       </form>
-      {/* <DetailFunctional pokeDescription={pokeDescription} /> */}
-      <DetailClass pokeDescription={pokeDescription} />
+      <DetailFunctional pokeDescription={pokeDescription} loading={loading} />
+      <DetailClass pokeDescription={pokeDescription} loading={loading} />
     </div>
   );
 }

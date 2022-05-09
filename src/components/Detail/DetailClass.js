@@ -1,4 +1,5 @@
 import React from 'react';
+import Spinner from '../layout/Spinner';
 import '../../App.css';
 
 class DetailClass extends React.Component {
@@ -48,7 +49,7 @@ class DetailClass extends React.Component {
   }
 
   render() {
-    const { pokeDescription } = this.props;
+    const { pokeDescription, loading } = this.props;
 
     const pokeType =
       pokeDescription.types !== undefined
@@ -62,8 +63,8 @@ class DetailClass extends React.Component {
           pokeDescription.abilities[1].ability.name
         : 'loading';
 
-    return pokeDescription === {} ? (
-      <p>loading...</p>
+    return loading ? (
+      <Spinner />
     ) : (
       <div>
         <h2>Hey I'm Class </h2>

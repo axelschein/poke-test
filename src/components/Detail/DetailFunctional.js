@@ -1,7 +1,8 @@
 import '../../App.css';
 import React, { useState, useEffect } from 'react';
+import Spinner from '../layout/Spinner';
 
-function DetailFunctional({ pokeDescription }) {
+function DetailFunctional({ pokeDescription, loading }) {
   const [img, setImg] = useState('');
   const [desImg, setDesImg] = useState('Back image');
 
@@ -35,8 +36,8 @@ function DetailFunctional({ pokeDescription }) {
       : setDesImg('Back image');
   };
 
-  return pokeDescription === {} ? (
-    <p>loading...</p>
+  return loading ? (
+    <Spinner />
   ) : (
     <div className="container">
       <h2>Hey I'm functional </h2>
