@@ -34,13 +34,13 @@ function App() {
   }, [pokemonName]);
 
   return (
-    <div className="App">
+    <div className="container all-center">
       <form onSubmit={handleSubmit}>
-        <label>
+        <label className="lead">
           Enter a pokemon name or a random number:
           <input type="text" onChange={(e) => setChange(e.target.value)} />
         </label>
-        <input type="submit" />
+        <input type="submit" className="btn btn-success" />
       </form>
       <DetailFunctional pokeDescription={pokeDescription} />
       {/* <DetailClass pokemon={pokeDescription}/> */}
