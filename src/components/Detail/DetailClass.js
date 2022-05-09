@@ -1,14 +1,24 @@
-
 import React from 'react';
-import './Detail.css';
+import '../../App.css';
 
 class DetailClass extends React.Component {
-    render() {
-        return (
-            <h2>Hey I'm Class</h2>
-        );
-    }
-}
+  constructor() {
+    super();
+    this.state = {};
+  }
 
+  render() {
+    const { pokeDescription } = this.props;
+
+    return pokeDescription === {} ? (
+      <p>loading...</p>
+    ) : (
+      <div>
+        <h2>Hey I'm Class </h2>
+        <h3>{pokeDescription.name}</h3>
+      </div>
+    );
+  }
+}
 
 export default DetailClass;

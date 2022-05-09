@@ -42,8 +42,8 @@ function App() {
         </label>
         <input type="submit" className="btn btn-success" />
       </form>
-      <DetailFunctional pokeDescription={pokeDescription} />
-      {/* <DetailClass pokemon={pokeDescription}/> */}
+      {/* <DetailFunctional pokeDescription={pokeDescription} /> */}
+      <DetailClass pokeDescription={pokeDescription} />
     </div>
   );
 }
