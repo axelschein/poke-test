@@ -13,26 +13,24 @@ class DetailClass extends React.Component {
 
   handleOnClick() {
     this.state.desImg === 'Back image'
-      ? this.setState({ img: this.props.pokeDescription.sprites?.back_default })
+      ? this.setState({ desImg: 'Front image' })
       : this.setState({
-          img: this.props.pokeDescription.sprites?.front_default,
+          desImg: 'Back image',
         });
   }
 
   handleImageChange() {
     this.state.img === this.props.pokeDescription.sprites?.front_default
       ? this.setState({
-          desImg: 'Back image',
+          img: this.props.pokeDescription.sprites?.back_default,
         })
       : this.setState({
-          desImg: 'Front image',
+          img: this.props.pokeDescription.sprites?.front_default,
         });
   }
 
   componentDidMount() {
-    setTimeout(() => {
-      this.setState({ img: this.props.pokeDescription.sprites?.front_default });
-    }, 1000);
+    this.setState({ img: this.props.pokeDescription.sprites?.front_default });
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -77,7 +75,7 @@ class DetailClass extends React.Component {
 
         <p>Type: {pokeType}</p>
         <p>Weight: {weight} lbs</p>
-        <p>Height: {height} "</p>
+        <p>Height: {height}"</p>
         <p>Number: {order}</p>
         <p>Abilities: {pokeAbilities}</p>
       </div>
