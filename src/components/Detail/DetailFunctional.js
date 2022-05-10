@@ -5,6 +5,7 @@ import { shape, bool, string, arrayOf, number } from 'prop-types';
 function DetailFunctional({ pokeDescription, loading }) {
   const { types, abilities, sprites, name, weight, height, order } =
     pokeDescription;
+  const [pokeName, setPokeName] = name;
   const [img, setImg] = useState('');
   const [desImg, setDesImg] = useState('Back image');
 
@@ -19,10 +20,8 @@ function DetailFunctional({ pokeDescription, loading }) {
       : setImg(sprites.front_default);
   };
   useEffect(() => {
-    if (img === '') {
-      setImg(sprites.front_default);
-    }
-  }, [img]);
+    setImg(sprites.front_default);
+  }, [pokeName]);
 
   useEffect(() => {
     if (img === sprites.front_default) {
