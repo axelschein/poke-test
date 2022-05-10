@@ -1,4 +1,4 @@
-export const fetchPokemonApi = async (pokemon) => {
+export const fetchPokemonApi = async (pokemon, showAlert) => {
   try {
     const response = await fetch(
       `https://pokeapi.co/api/v2/pokemon/${pokemon}`
@@ -7,5 +7,6 @@ export const fetchPokemonApi = async (pokemon) => {
     return data;
   } catch (err) {
     console.log('error', err);
+    showAlert("Oopps Didn't found that pokemon", 'light');
   }
 };

@@ -13,25 +13,25 @@ class DetailClass extends React.Component {
 
   handleOnClick() {
     this.state.desImg === 'Back image'
-      ? this.setState({ desImg: 'Front image' })
-      : this.setState({ desImg: 'Back image' });
+      ? this.setState({ img: this.props.pokeDescription.sprites?.back_default })
+      : this.setState({
+          img: this.props.pokeDescription.sprites?.front_default,
+        });
   }
 
   handleImageChange() {
-    console.log('handle');
     this.state.img === this.props.pokeDescription.sprites?.front_default
       ? this.setState({
-          img: this.props.pokeDescription.sprites?.back_default,
+          desImg: 'Back image',
         })
       : this.setState({
-          img: this.props.pokeDescription.sprites?.front_default,
+          desImg: 'Front image',
         });
   }
 
   componentDidMount() {
     setTimeout(() => {
       this.setState({ img: this.props.pokeDescription.sprites?.front_default });
-      console.log('mount');
     }, 1000);
   }
 
@@ -40,28 +40,22 @@ class DetailClass extends React.Component {
       this.setState({
         img: this.props.pokeDescription.sprites?.front_default,
       });
-      console.log('update2');
     }
     if (prevState.desImg !== this.state.desImg) {
       this.handleImageChange();
-      console.log('update1');
     }
   }
 
   render() {
     const { pokeDescription, loading } = this.props;
+    const { img, desImg } = this.state;
+    const { types, abilities, name, weight, height, order } = pokeDescription;
 
-    const pokeType =
-      pokeDescription.types !== undefined
-        ? pokeDescription.types[0].type.name
-        : 'loading';
+    const pokeType = types !== undefined ? types[0].type.name : 'loading';
 
-    const pokeAbilities =
-      pokeDescription.abilities !== undefined
-        ? pokeDescription.abilities[0].ability.name +
-          ' and ' +
-          pokeDescription.abilities[1].ability.name
-        : 'loading';
+    const pokeAbilities = abilities
+      .map((abilityObj) => abilityObj.ability.name)
+      .join(' - ');
 
     return loading ? (
       <Spinner />
@@ -69,27 +63,22 @@ class DetailClass extends React.Component {
       <div className="all-center">
         <br />
         <h2>Hey I'm Class </h2>
-        <h3>{pokeDescription.name}</h3>
+        <h3>{name}</h3>
         <div className="all-center">
-          <img
-            src={this.state.img}
-            loading="lazy"
-            alt={pokeDescription.name}
-            style={{ width: '100px' }}
-          />
+          <img src={img} loading="lazy" alt={name} style={{ width: '100px' }} />
           <button
             className="btn btn-primary"
             onClick={() => this.setState(this.handleOnClick())}
           >
-            {this.state.desImg}
+            {desImg}
           </button>
           <br />
         </div>
 
         <p>Type: {pokeType}</p>
-        <p>Weight: {pokeDescription.weight} lbs</p>
-        <p>Height: {pokeDescription.weight} "</p>
-        <p>Number: {pokeDescription.order}</p>
+        <p>Weight: {weight} lbs</p>
+        <p>Height: {height} "</p>
+        <p>Number: {order}</p>
         <p>Abilities: {pokeAbilities}</p>
       </div>
     );

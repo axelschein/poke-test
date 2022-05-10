@@ -3,14 +3,15 @@ import Spinner from '../layout/Spinner';
 import { shape, bool, string, arrayOf, number } from 'prop-types';
 
 function DetailFunctional({ pokeDescription, loading }) {
-  const { types, abilities, sprites, name, weight, order } = pokeDescription;
+  const { types, abilities, sprites, name, weight, height, order } =
+    pokeDescription;
   const [img, setImg] = useState('');
   const [desImg, setDesImg] = useState('Back image');
 
-  const pokeType = types ? types[0].type.name : 'loading';
+  const pokeType = types ? types[0].type.name : loading;
   const pokeAbilities = abilities
-    ? `${abilities[0].ability.name} and ${abilities[1].ability.name}`
-    : 'loading';
+    .map((abilityObj) => abilityObj.ability.name)
+    .join(' - ');
 
   const handleOnClick = () => {
     desImg === 'Back image'
@@ -18,22 +19,16 @@ function DetailFunctional({ pokeDescription, loading }) {
       : setImg(sprites.front_default);
   };
   useEffect(() => {
+    if (img === '') {
+      setImg(sprites.front_default);
+    }
+  }, [img]);
+
+  useEffect(() => {
     if (img === sprites.front_default) {
       setDesImg('Back image');
     } else {
       setDesImg('Front image');
-
-      // switch (img) {
-      //   case '':
-      //     setImg(sprites.front_default);
-      //     break;
-      //   case sprites.front_default:
-      //     setDesImg('Back image');
-      //     break;
-
-      //   default:
-      //     setDesImg('Front image');
-      //     break;
     }
   }, [img]);
 
@@ -56,7 +51,7 @@ function DetailFunctional({ pokeDescription, loading }) {
 
       <p>Type: {pokeType}</p>
       <p>Weight: {weight} lbs</p>
-      <p>Height: {weight}"</p>
+      <p>Height: {height}"</p>
       <p>Number: {order}</p>
       <p>Abilities: {pokeAbilities}</p>
     </div>

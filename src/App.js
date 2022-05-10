@@ -15,7 +15,7 @@ function App() {
   const fetchPokemon = async () => {
     setLoading(true);
     try {
-      const description = await fetchPokemonApi(pokemonName);
+      const description = await fetchPokemonApi(pokemonName, showAlert);
       setPokeDescription(description);
     } catch (error) {
       console.log('error', error);
