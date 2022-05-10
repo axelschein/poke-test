@@ -1,6 +1,6 @@
 import React from 'react';
 import Spinner from '../layout/Spinner';
-import '../../App.css';
+import { shape, bool, string, arrayOf, number } from 'prop-types';
 
 class DetailClass extends React.Component {
   constructor() {
@@ -66,19 +66,25 @@ class DetailClass extends React.Component {
     return loading ? (
       <Spinner />
     ) : (
-      <div>
+      <div className="all-center">
+        <br />
         <h2>Hey I'm Class </h2>
         <h3>{pokeDescription.name}</h3>
-        <img
-          src={this.state.img}
-          loading="lazy"
-          alt={pokeDescription.name}
-          style={{ width: '100px' }}
-        />
-
-        <button onClick={() => this.setState(this.handleOnClick())}>
-          {this.state.desImg}
-        </button>
+        <div className="all-center">
+          <img
+            src={this.state.img}
+            loading="lazy"
+            alt={pokeDescription.name}
+            style={{ width: '100px' }}
+          />
+          <button
+            className="btn btn-primary"
+            onClick={() => this.setState(this.handleOnClick())}
+          >
+            {this.state.desImg}
+          </button>
+          <br />
+        </div>
 
         <p>Type: {pokeType}</p>
         <p>Weight: {pokeDescription.weight} lbs</p>
@@ -89,5 +95,30 @@ class DetailClass extends React.Component {
     );
   }
 }
+
+DetailClass.propTypes = {
+  pokeDescription: shape({
+    types: arrayOf(
+      shape({
+        name: string,
+      })
+    ),
+    abilities: arrayOf(
+      shape({
+        ability: shape({
+          name: string,
+        }),
+      })
+    ),
+    sprites: shape({
+      front_default: string,
+      back_default: string,
+    }),
+    name: string,
+    weight: number,
+    order: number,
+  }).isRequired,
+  loading: bool.isRequired,
+};
 
 export default DetailClass;

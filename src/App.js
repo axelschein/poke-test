@@ -3,36 +3,45 @@ import DetailFunctional from './components/Detail/DetailFunctional';
 import DetailClass from './components/Detail/DetailClass';
 import { useEffect, useState } from 'react';
 import { fetchPokemonApi } from './api/pokemon';
+import Alert from './components/layout/Alert';
 
 function App() {
   const [pokemonName, setPokemonName] = useState('ditto');
   const [change, setChange] = useState('');
+  const [pokeDescription, setPokeDescription] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [pokeDescription, setPokeDescription] = useState({});
+  const [alert, setAlert] = useState(null);
 
   const fetchPokemon = async () => {
-    const description = await fetchPokemonApi(pokemonName);
-    setPokeDescription(description);
+    setLoading(true);
+    try {
+      const description = await fetchPokemonApi(pokemonName);
+      setPokeDescription(description);
+    } catch (error) {
+      console.log('error', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const showAlert = (msg, type) => {
+    setAlert({ msg, type });
+
+    setTimeout(() => setAlert(null), 4000);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setPokemonName(change);
-    setLoading(true);
+    if (change === '') {
+      showAlert('Please enter something', 'light');
+    } else {
+      setPokemonName(change);
+      setLoading(true);
+    }
   };
 
   useEffect(() => {
-    setLoading(true);
-    setTimeout(() => {
-      try {
-        fetchPokemon();
-        console.log('effect');
-      } catch (err) {
-        console.log('error', err);
-      } finally {
-        setLoading(false);
-      }
-    }, 500);
+    fetchPokemon();
   }, [pokemonName]);
 
   return (
@@ -42,10 +51,19 @@ function App() {
           Enter a pokemon name or a random number:
           <input type="text" onChange={(e) => setChange(e.target.value)} />
         </label>
+        <Alert alert={alert} />
         <input type="submit" className="btn btn-success" />
       </form>
-      <DetailFunctional pokeDescription={pokeDescription} loading={loading} />
-      <DetailClass pokeDescription={pokeDescription} loading={loading} />
+
+      {pokeDescription && (
+        <>
+          <DetailFunctional
+            pokeDescription={pokeDescription}
+            loading={loading}
+          />
+          <DetailClass pokeDescription={pokeDescription} loading={loading} />
+        </>
+      )}
     </div>
   );
 }
